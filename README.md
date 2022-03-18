@@ -2,7 +2,7 @@
 
 **Team Members:** Abhinav Venkatesh, Dhrumil Makwana, Maaz Afzal Shaikh, Sana Fathima, Shaily Preetham Kurra, Sri Nikitha Kalidindi
 
-This is the initial version of our chat application deployed at: 
+This is the initial version of our chat application deployed at: [Chat App](https://chat-app-v11.herokuapp.com/)
 
 References:
 * https://flask.palletsprojects.com/en/2.0.x/
