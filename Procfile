@@ -1,1 +1,1 @@
-web: sh -c 'npm run build --prefix login-auth'
+web: npm start --prefix login-auth
