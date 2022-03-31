@@ -1,1 +1,1 @@
-web: sh -c 'cd ./login-auth/ && npm start --prefix login-auth'
+web: sh -c 'npm start --prefix login-auth'
