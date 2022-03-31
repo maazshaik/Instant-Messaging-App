@@ -30,7 +30,7 @@ class Login extends React.Component {
           this.props.navigate('/userhome')
 
         }else{
-          console.error('Invalid Form')
+          console.error('Invalid Data')
         }
       }
 
