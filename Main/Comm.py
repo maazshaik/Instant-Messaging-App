@@ -15,6 +15,16 @@ def send_message(room_id, message, timestamp, user):
     time = int(timestamp)
     redis_connection.zadd(room_id, {payload: time})
 
+def check_user_exist(username):
+    if redis_connection.exists(username):
+        return True
+    return False
+
+def get_userid(username_key):
+    user_exist =redis_connection.exists(username_key)
+    if user_exist:
+        return redis_connection.get(username_key)
+    return None
 
 def make_username_key(username):
     return f"username:{username}"
