@@ -3,7 +3,7 @@ import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import LoginN from './Pages/Login/Login';
 import RegisterN from './Pages/Register/Register';
-import HomeN from './Pages/Home/home';
+import HomeN from './Pages/Home/Home';
 
 class App extends React.Component{ 
 
