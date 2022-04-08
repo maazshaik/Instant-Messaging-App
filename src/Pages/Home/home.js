@@ -2,7 +2,7 @@ import React from "react";
 import { FriendList } from "./FriendList";
 import { MessageLayout } from "./MessageLayout";
 import { useNavigate } from "react-router-dom";
-import "./Home.css";
+import "./home.css";
 
 class Home extends React.Component {
   state = {
