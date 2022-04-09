@@ -14,7 +14,7 @@ def test_case_create_room_id(user1, user2):
     return room_id['id']
 
 def test_case_get_message(room_id):
-    results = Comm.get_message(room_id,1)
+    results = Comm.get_message(room_id)
     print(results)
 
 def test_case_create_username(username):
@@ -22,6 +22,8 @@ def test_case_create_username(username):
     return response['id']
 
 if __name__ == "__main__":
+
+
     user1 = input("enter your name user 1")
     user2 = input("enter your name user 2")
     u1 = Comm.get_userid(Comm.make_username_key(user1))

@@ -29,6 +29,8 @@ def get_userid(username_key):
 def make_username_key(username):
     return f"username:{username}"
 
+def decode(userid):
+    return int(userid.decode("utf-8").split(":")[1])
 
 def create_user(username):
     username_key = make_username_key(username)
