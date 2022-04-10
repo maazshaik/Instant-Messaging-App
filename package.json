@@ -1,10 +1,22 @@
 {
-    "author": "Lester Fernandez",
+    "author": "Sana Fathima",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
     "private": "true",
     "workspaces": [
-      "packages/*"
-    ]
-  }
+        "packages/*"
+    ],
+    "scripts": {
+        "startboth": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+        "dev:server": "yarn workspace server dev",
+        "dev:client": "yarn workspace client start",
+        "build:client": "yarn workspace client build",
+        "start": "yarn workspace server start"
+    },
+    "dependencies": {
+        "concurrently": "^7.1.0",
+        "nodemon": "^2.0.15",
+        "yarn": "^1.22.18"
+    }
+}
