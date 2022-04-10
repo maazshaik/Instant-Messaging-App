@@ -22,16 +22,17 @@ def add_friend():
 
 @app.route('/send', methods = ['GET', 'POST'])
 def send_msg():
-    if request.method == 'GET':
-        user1 = 1
-        message = request.args["text"]
-        #user2 = utils.decode(utils.get_userid(utils.make_username_key(request.args.get('user'))))
-        user2 = 2
+    if request.method == 'POST':
+        data = json.loads(request.data)
+        user1 = int(data['sender'])
+        message = data['text']
+        user2 = int(data['receiver'])
         room_id = utils.get_room_id(user1, user2)
         timestamp = time.time()
         print("Sending: ", message, "from user:", user1, "to user:", user2)
         utils.send_message(room_id, message, timestamp, user1)
 
+        # Dummy response
         jsonPayload = {}
         response = json.dumps(jsonPayload, indent=4, sort_keys=True)
         return Response(response=response, status=200, mimetype="application/json")
