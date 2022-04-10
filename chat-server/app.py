@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, Response, jsonify, render_template
+import json
 import utils
 import time
 
@@ -6,7 +7,7 @@ import time
 app = Flask(__name__)
 
 
-app.route('/add', methods=['POST'])
+@app.route('/add', methods=['POST'])
 def add_friend():
     user1 = None
     user2 = utils.decode(utils.get_userid(utils.make_username_key(request.form('user'))))
@@ -19,15 +20,21 @@ def add_friend():
     # Create a pannel on UI
     # Pass
 
-app.route('/UI', methods = ['GET', 'POST'])
+@app.route('/send', methods = ['GET', 'POST'])
 def send_msg():
-    if request.method == 'POST':
-        user1 = None
-        message = request.form('message')
-        user2 = utils.decode(utils.get_userid(utils.make_username_key(request.args.get('user'))))
+    if request.method == 'GET':
+        user1 = 1
+        message = request.args["text"]
+        #user2 = utils.decode(utils.get_userid(utils.make_username_key(request.args.get('user'))))
+        user2 = 2
         room_id = utils.get_room_id(user1, user2)
         timestamp = time.time()
+        print("Sending: ", message, "from user:", user1, "to user:", user2)
         utils.send_message(room_id, message, timestamp, user1)
+
+        jsonPayload = {}
+        response = json.dumps(jsonPayload, indent=4, sort_keys=True)
+        return Response(response=response, status=200, mimetype="application/json")
     elif request.method == 'GET':
         user = None
         user1 = utils.decode(utils.get_userid(utils.make_username_key(user)))
@@ -43,8 +50,8 @@ def send_msg():
 
 
 
-
-
+if __name__ == '__main__':
+  app.run(host="0.0.0.0", port=6000)
 
 
 

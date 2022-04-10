@@ -1,5 +1,9 @@
 import React from "react";
 import { Message } from "./Message";
+import axios from 'axios';
+
+let textInput = React.createRef();
+
 export class MessageLayout extends React.Component {
   render() {
     let list = <div className="empty-message-list">No messages to display</div>;
@@ -11,8 +15,8 @@ export class MessageLayout extends React.Component {
         <div className="conversation">{list}</div>
 
         <div className="text-box">
-          <input type="text" />
-          <button>Send</button>
+          <input id="text" ref={textInput} placeholder="Type a message..." />
+          <button onClick={handleClick}>Send</button>
         </div>
       </div>
     );
@@ -27,4 +31,21 @@ function getMessageDetails(message) {
       text={message.text}
     ></Message>
   );
+}
+
+function handleClick() {
+  const options = {
+    method: 'GET',
+    url: 'http://localhost:3001/send',
+    params: {text: textInput.current.value},
+  }
+
+  axios.request(options).then((response) => {
+    console.log(response.data)
+    alert(response.data)
+    document.getElementById("text").value = ''
+  }).catch((error) => {
+    console.error(error)
+    alert("Bad")
+  })
 }
