@@ -85,8 +85,8 @@ class Register extends React.Component {
                     console.error('User Exists, Please login again!')
                     this.props.navigate('/')
                 }    
-            }
-*/
+            }*/
+            this.props.navigate('/')
         }else{
           console.error('Invalid Data')
         }

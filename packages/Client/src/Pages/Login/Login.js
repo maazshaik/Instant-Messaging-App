@@ -47,6 +47,7 @@ class Login extends React.Component {
             else{
                 this.props.navigate('/userregister')
             }*/
+            this.props.navigate('/userhome')
         }else{
           console.error('Invalid Data')
         }
