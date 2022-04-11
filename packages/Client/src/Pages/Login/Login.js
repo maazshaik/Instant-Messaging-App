@@ -3,6 +3,8 @@ import {ReactComponent as Logo} from '../../logo.svg';
 import './Login.css';
 import {useNavigate} from 'react-router-dom';
 
+const axios = require("axios");
+
 const validateForm = errors => {
     let valid = true;
     Object.values(errors).forEach(val => val.length > 0 && (valid = false));
@@ -19,16 +21,6 @@ class Login extends React.Component {
           }
     }
 
-    /*validateUser = () => {
-        let valid = 1;
-        // 1 - User does not exist
-        // 2 - User exists, incorrect password
-        // 3 - User exists, correct password
-        state.uname
-        state.password
-        return valid;
-    }*/
-
     handleChange = (e) => {
         const {name,value} = e.target
         this.setState({[name]:value})
@@ -37,19 +29,29 @@ class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if(validateForm(this.state.errors)) {
-            /*validate_user_var = this.validateUser()
-            if(validate_user_var == 3){
-                this.props.navigate('/userhome')
+            const options = {
+                method: 'GET',
+                url: 'http://localhost:3001/userlogin',
+                params: {uname:this.state.uname},
             }
-            else if(validate_user_var == 2){
-                    console.error('Invalid Password')
-            }
-            else{
-                this.props.navigate('/userregister')
-            }*/
-            this.props.navigate('/userhome')
+            
+            axios.request(options)
+            .then(res => {
+                console.log(res.data)
+                if (!res || res.data.rows.length == 0) {
+                    alert('User does not exist! Please register and try again!')
+                    this.props.navigate('/userregister')
+                }
+                else{
+                    if(this.state.password == res.data.rows[0].password)
+                        this.props.navigate('/userhome')
+                    else{
+                        alert('Incorrect Password!')
+                    }
+                }
+            })
         }else{
-          console.error('Invalid Data')
+            alert('Invalid Data')
         }
       }
 

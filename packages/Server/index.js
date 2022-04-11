@@ -5,6 +5,7 @@ const axios = require("axios");
 const  PORT= process.env.PORT || 3001;
 
 const app = express();
+const db = require('./postgres')
 app.use(cors())
 
 app.get('/send', (req,res) => {
@@ -25,6 +26,37 @@ app.get('/send', (req,res) => {
       res.json("heyyy!!")
   }).catch((error) => {
       console.error(error)
+  })
+})
+
+app.get("/userregister", (req, res) => {
+  db.getUserByIdName(req)
+  .then(response => {
+      res.status(200).send(response);
+  }).catch(error => {
+      console.error(error);
+  })
+})
+
+app.get("/userregister2", (req, res) => {
+  console.log(req.query)
+  db.createUser(req.query)
+  .then(response => {
+    console.log(response)
+      res.status(200).send(response);
+  }).catch(error => {
+      console.error(error);
+  })
+})
+
+app.get("/userlogin", (req, res) => {
+  console.log(req)
+  db.getUserById(req)
+  .then(response => {
+    console.log(response)
+      res.status(200).send(response);
+  }).catch(error => {
+      console.error(error);
   })
 })
 
