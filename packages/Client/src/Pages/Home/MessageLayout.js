@@ -4,6 +4,8 @@ import axios from 'axios';
 
 let textInput = React.createRef();
 
+axios.defaults.withCredentials = true;
+
 export class MessageLayout extends React.Component {
   render() {
     let list = <div className="empty-message-list">No messages to display</div>;

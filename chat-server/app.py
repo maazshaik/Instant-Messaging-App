@@ -24,7 +24,11 @@ def add_friend():
 def send_msg():
     if request.method == 'POST':
         data = json.loads(request.data)
-        user1 = int(data['sender'])
+        sender_name = data['sender']
+        print(sender_name)
+        user1 = None
+        if len(sender_name) > 0:
+            user1 = 1
         message = data['text']
         user2 = int(data['receiver'])
         room_id = utils.get_room_id(user1, user2)

@@ -32,19 +32,19 @@ class Login extends React.Component {
             const options = {
                 method: 'GET',
                 url: 'http://localhost:3001/userlogin',
-                params: {uname:this.state.uname},
+                params: {uname:this.state.uname, password:this.state.password},
             }
             
             axios.request(options)
             .then(res => {
-                console.log(res.data)
                 if (!res || res.data.rows.length == 0) {
                     alert('User does not exist! Please register and try again!')
                     this.props.navigate('/userregister')
                 }
                 else{
-                    if(this.state.password == res.data.rows[0].password)
+                    if(res.status == 200){
                         this.props.navigate('/userhome')
+                    }
                     else{
                         alert('Incorrect Password!')
                     }

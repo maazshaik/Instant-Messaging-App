@@ -5,6 +5,9 @@ import {useNavigate} from 'react-router-dom';
 
 const axios = require("axios");
 
+axios.defaults.withCredentials = true;
+
+
 const validateForm = errors => {
     let valid = true;
     Object.values(errors).forEach(val => val.length > 0 && (valid = false));
@@ -31,7 +34,6 @@ class Register extends React.Component {
           params: {fullname: this.state.fullname, uname:this.state.uname, password:this.state.password}
           })
           .then(res => {
-                console.log(res)
                 if (res.status >= 400) {
                     alert('Something went wrong during creation of user')
                 }
@@ -54,7 +56,6 @@ class Register extends React.Component {
             // Check if user exists
             // 1 - User does not exist - create
             // 2 - User exists
-            console.log('Inside validate')
             const options = {
                 method: 'GET',
                 url: 'http://localhost:3001/userregister',
@@ -99,7 +100,7 @@ class Register extends React.Component {
                     <input className='input' type = 'fullname' name = 'fullname' placeholder ='Display Name' required onChange = {this.handleChange} />
                     <input className='input' type = 'username' name = 'uname' placeholder ='Username' required onChange = {this.handleChange} />
                     <input className='input' type = 'password' name = 'password' placeholder ='Password' required onChange = {this.handleChange} />
-                    <input className='input' type = 'cpassword' name = 'cpassword' placeholder ='Confirm Password' required onChange = {this.handleChange} />
+                    <input className='input' type = 'password' name = 'cpassword' placeholder ='Confirm Password' required onChange = {this.handleChange} />
                     <button className='button' onSubmit = {this.handleSubmit}> Register </button>
                     </form>
                 </div>
