@@ -6,10 +6,11 @@ import time
 app = Flask(__name__)
 
 
-app.route('/add', methods=['POST'])
+@app.route('/add', methods=['POST'])
 def add_friend():
     user1 = None
-    user2 = Comm.decode(Comm.get_userid(Comm.make_username_key(request.form('user'))))
+    user2 = request.form('user')
+    userid2 = Comm.decode(Comm.get_userid(Comm.make_username_key(user2)))
 
 
     Comm.add_to_friends_list(user1, user2)
@@ -19,7 +20,19 @@ def add_friend():
     # Create a pannel on UI
     # Pass
 
-app.route('/UI', methods = ['GET', 'POST'])
+@app.route("/getfriend", methods=['GET'])
+def get_friend():
+    username = request.args.get('user1')
+    user1 = Comm.decode(Comm.get_userid(Comm.make_username_key(username)))
+    friendlistid, friendlist = Comm.get_friend_list(user1, username)
+    print(username)
+    print(user1)
+    return jsonify(friendlist)
+
+
+
+
+@app.route('/UI', methods = ['GET', 'POST'])
 def send_msg():
     if request.method == 'POST':
         user1 = None
@@ -41,7 +54,8 @@ def send_msg():
         messages = jsonify(messages)
         return messages
 
-
+if __name__ == "__main__":
+    app.run()
 
 
 
