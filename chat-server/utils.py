@@ -2,12 +2,14 @@ from configurations import redis_connection
 import json
 import math
 
-def send_message(room_id, message, timestamp, user):
+def send_message(room_id, message, timestamp, userid, sender, receiver):
     content = {
-        "user_details": user,
+        "user_details": userid,
         "message": message,
         "timestamp": timestamp,
-        "room_details": room_id
+        "room_details": room_id,
+        "sender": sender,
+        "receiver": receiver
     }
     payload = json.dumps(content)
     time = int(timestamp)

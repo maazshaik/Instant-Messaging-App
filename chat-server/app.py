@@ -40,13 +40,14 @@ def send_msg():
         user1 = request_content['sender']
         app.logger.warning("warning")
         app.logger.warning(request_content)
-        user1 = utils.decode(utils.get_userid(utils.make_username_key(user1)))
+        user1id = utils.decode(utils.get_userid(utils.make_username_key(user1)))
         message = request_content['text']
         app.logger.warning(request.get_data())
-        user2 = utils.decode(utils.get_userid(utils.make_username_key(request_content['receiver'])))
-        room_id = utils.get_room_id(user1, user2)
+        user2 = request_content['receiver']
+        user2id = utils.decode(utils.get_userid(utils.make_username_key(user2)))
+        room_id = utils.get_room_id(user1id, user2id)
         timestamp = time.time()
-        utils.send_message(room_id, message, timestamp, user1)
+        utils.send_message(room_id, message, timestamp, user1id, user1, user2)
         response = jsonify(success=True)
         return response, 200
     elif request.method == 'GET':
@@ -65,9 +66,3 @@ def send_msg():
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=6000, debug=True)
-
-
-
-
-
-
