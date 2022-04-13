@@ -1,8 +1,6 @@
 from configurations import redis_connection
 import json
 import math
-import time
-
 
 def send_message(room_id, message, timestamp, user):
     content = {
@@ -50,15 +48,18 @@ def get_message(room_id=0, offset=0, size=50):
     return None
 
 
-def get_friend_list(username):
+def get_friend_list(userid, username):
+    friends_list_id = redis_connection.zrevrange(userid, 0, -1)
     friends_list = redis_connection.zrevrange(username, 0, -1)
-    return list(map(lambda x: json.loads(x.decode("utf-8")), friends_list))
+    friends_list_id = list(map(lambda x: json.loads(x.decode("utf-8")), friends_list_id))
+    friends_list = list(map(lambda x: x.decode("utf-8"), friends_list))
+    return friends_list_id, friends_list
 
-
-def add_to_friends_list(userid1, userid2):
+def add_to_friends_list(userid1, userid2, user1, user2):
     redis_connection.zadd(userid1, {userid2: 1})
     redis_connection.zadd(userid2, {userid1: 1})
-
+    redis_connection.zadd(user1, {user2: 1})
+    redis_connection.zadd(user2, {user1: 1})
 
 def get_room_id(user1, user2):
     if math.isnan(user1) or math.isnan(user2) or user1 == user2:
