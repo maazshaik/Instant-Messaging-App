@@ -2,7 +2,7 @@
 
 **Team Members:** Abhinav Venkatesh, Dhrumil Makwana, Maaz Afzal Shaikh, Sana Fathima, Shaily Preetham Kurra, Sri Nikitha Kalidindi
 
-This is the initial version of our chat application deployed at: [Chat App](https://chat-app-v11.herokuapp.com/)
+This is the initial version of our chat application deployed at: [Chat App](http://35.224.20.5:3000/)
 
 How to run dev environment:
 
