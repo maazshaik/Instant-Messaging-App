@@ -35,17 +35,34 @@ function getMessageDetails(message) {
   );
 }
 
-function handleClick() {
+/*function handleClick() {
   const options = {
     method: 'GET',
     url: 'http://localhost:3001/send',
-    params: {text: textInput.current.value},
+    params: {text: textInput.current.value, receiver: 'abhinav'},
   }
 
   axios.request(options).then((response) => {
     console.log(response.data)
     alert(response.data)
     document.getElementById("text").value = ''
+  }).catch((error) => {
+    console.error(error)
+    alert("Bad")
+  })
+}*/
+
+function handleClick() {
+  const options = {
+    method: 'GET',
+    url: 'http://localhost:3001/getMessages',
+    params: {target: 'abhinav'},
+  }
+
+  axios.request(options).then((response) => {
+    console.log(response.data)
+    document.getElementById("text").value = JSON.stringify(response.data)
+    //document.getElementById("text").value = ''
   }).catch((error) => {
     console.error(error)
     alert("Bad")

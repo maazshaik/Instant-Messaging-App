@@ -26,19 +26,36 @@ app.use(session({ key: "userId", secret: "secret", saveUninitialized: false, res
 app.get('/send', (req,res) => {
   const sendText = req.query.text
   const sender_name = req.session.user
+  const receiver_name = req.query.receiver
   const options = {
     method: 'POST',
     url: 'http://0.0.0.0:6000/send',
-    data: {text: sendText, sender: sender_name, receiver: '2'},
+    data: {text: sendText, sender: sender_name, receiver: receiver_name},
     headers: {
       // Add correct auth bearer
       Authorization: 'Bearer abcdxyz',
       'Content-Type': 'application/json',
     }
 }
-
   axios.request(options).then((response) => {
       res.json("Success!!")
+  }).catch((error) => {
+      console.error(error)
+  })
+})
+
+app.get('/getMessages', (req, res) => {
+  const options = {
+    method: 'GET',
+    url: 'http://0.0.0.0:6000/send',
+    params: {source: req.session.user, target: req.query.target},
+    headers: {
+      // Add correct auth bearer
+      Authorization: 'Bearer abcdxyz',
+    }
+  }
+  axios.request(options).then((response) => {  
+    res.json(response.data)
   }).catch((error) => {
       console.error(error)
   })
