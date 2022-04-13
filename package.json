@@ -20,6 +20,7 @@
         "concurrently": "^7.1.0",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
+        "dotenv": "^16.0.0",
         "express-session": "^1.17.2",
         "i": "^0.3.7",
         "install": "^0.13.0",

@@ -6,6 +6,18 @@ let textInput = React.createRef();
 
 axios.defaults.withCredentials = true;
 
+require('dotenv').config();
+let ip = ""
+let port = ""
+
+if (process.env.REACT_APP_PROD == "TRUE") {
+  ip = process.env.REACT_APP_PROD_IP
+  port = process.env.REACT_APP_BACKEND_PORT
+}else{
+  ip = process.env.REACT_APP_LOCAL_IP
+  port = process.env.REACT_APP_BACKEND_PORT
+}
+
 export class MessageLayout extends React.Component {
   render() {
     let list = <div className="empty-message-list">No messages to display</div>;
@@ -38,10 +50,11 @@ function getMessageDetails(message) {
 function handleClick() {
   const options = {
     method: 'GET',
-    url: 'http://localhost:3001/send',
+    url: ip + ':' + port +'/send',
     params: {text: textInput.current.value},
   }
 
+  console.log(ip + ':' + port +'/send')
   axios.request(options).then((response) => {
     console.log(response.data)
     alert(response.data)
