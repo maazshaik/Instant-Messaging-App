@@ -5,14 +5,32 @@ import { useNavigate } from "react-router-dom";
 import "./home.css";
 
 class Home extends React.Component {
-  state = {
-    friendList: [{ name: "Friend 1" }, { name: "Friend 2" }],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      friendList: [{ name: "abhinav" }],
+      selectedFriend: null
+    };
+    this.updateFriendSelected = this.updateFriendSelected.bind(this);
+    this.getFriendDetails = this.getFriendDetails.bind(this);
+  }
+
+  updateFriendSelected(friend) {
+    alert('success')
+    this.setState({selectedFriend: friend})
+  }
+  
+  getFriendDetails(friend) {
+    return <div className="friend-panel" onClick={() => this.updateFriendSelected(friend.name)}>
+        <div>{friend.name}</div>
+      </div>
+  }
+
   render() {
     return (
       <div className="home-page">
-        <FriendList friendList={this.state.friendList} />
-        <MessageLayout />
+        <div className="friend-list">{this.state.friendList.map(this.getFriendDetails)}</div>;
+        <MessageLayout friend={this.state.selectedFriend} />
       </div>
     );
   }

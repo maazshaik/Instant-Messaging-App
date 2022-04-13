@@ -4,10 +4,9 @@ export class Message extends React.Component {
     return (
       <div className="message">
         <div>
-          <b>{this.props.sender}</b>
+          <b>{this.props.sender} : </b>
+          <span>{this.props.text}</span>
         </div>
-
-        <span>{this.props.text}</span>
       </div>
     );
   }
