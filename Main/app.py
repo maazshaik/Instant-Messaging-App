@@ -6,7 +6,7 @@ import time
 app = Flask(__name__)
 
 
-@app.route('/add', methods=['POST'])
+@app.route('/friend/add', methods=['POST'])
 def add_friend():
     user1 = None
     user2 = request.form('user')
@@ -20,17 +20,15 @@ def add_friend():
     # Create a pannel on UI
     # Pass
 
-@app.route("/getfriend", methods=['GET'])
+@app.route("/friend/get", methods=['GET'])
 def get_friend():
     username = request.args.get('user1')
     user1 = Comm.decode(Comm.get_userid(Comm.make_username_key(username)))
     friendlistid, friendlist = Comm.get_friend_list(user1, username)
     print(username)
     print(user1)
+
     return jsonify(friendlist)
-
-
-
 
 @app.route('/UI', methods = ['GET', 'POST'])
 def send_msg():
@@ -42,17 +40,17 @@ def send_msg():
         timestamp = time.time()
         Comm.send_message(room_id, message, timestamp, user1)
     elif request.method == 'GET':
-        user = None
-        user1 = Comm.decode(Comm.get_userid(Comm.make_username_key(user)))
-        friend_list = Comm.get_friend_list(user1)
-        messages = []
-        for i in range(len(friend_list)):
-            user2 = friend_list[i]
-            room_id = Comm.get_room_id(user1, user2)
-            data = Comm.get_message(room_id)
-            messages.append(data)
-        messages = jsonify(messages)
-        return messages
+        user1 = None
+        user1id = Comm.decode(Comm.get_userid(Comm.make_username_key(user1)))
+        user2 = request.args.get('user2')
+        user2id = Comm.decode(Comm.get_userid(Comm.make_username_key(user2)))
+        room_id = Comm.create_room_id(user1id, user2id)
+
+        response = Comm.get_message(room_id)
+        room_id = response[0]['id']
+        data = Comm.get_message(room_id)
+        return jsonify(data)
+
 
 if __name__ == "__main__":
     app.run()
