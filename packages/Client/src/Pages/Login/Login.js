@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 
 const axios = require("axios");
 
+
 const validateForm = errors => {
     let valid = true;
     Object.values(errors).forEach(val => val.length > 0 && (valid = false));
@@ -31,7 +32,7 @@ class Login extends React.Component {
         if(validateForm(this.state.errors)) {
             const options = {
                 method: 'GET',
-                url: 'http://localhost:3001/userlogin',
+                url: 'http://35.224.20.5:3001/userlogin',
                 params: {uname:this.state.uname, password:this.state.password},
             }
             

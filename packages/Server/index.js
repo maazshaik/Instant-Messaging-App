@@ -11,22 +11,22 @@ const app = express();
 const db = require('./postgres')
 
 require('dotenv').config();
-let server_ip = ""
-let server_port = ""
+let server_address = ""
+let server_port = "6000"
 
 if (process.env.PROD == "TRUE") {
-  server_ip = process.env.PROD_IP
-  server_port = process.env.SERVER_PORT
+  server_address = process.env.MSERVER_HOST
 }else{
-  server_ip = process.env.LOCAL_IP
-  server_port = process.env.SERVER_PORT
+  server_address = process.env.LOCAL_IP
 }
+
+console.log(server_address)
 
 app.use(cors({
   credentials: true,
   methods: ["GET", "POST"],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  origin: [process.env.PROD_IP + ':' + process.env.SERVER_PORT, process.env.PROD_IP + ':' + process.env.CLIENT_PORT,
+  origin: ['http://35.224.20.5:3000', 'http://35.224.20.5:3001',
   process.env.LOCAL_IP + ':' + process.env.SERVER_PORT, process.env.LOCAL_IP + ':' + process.env.CLIENT_PORT]
 }));
 app.use(cookieParser());
@@ -40,11 +40,11 @@ app.get('/send', (req,res) => {
   const sendText = req.query.text
   const sender_name = req.session.user
 
-  console.log(server_ip + ':' + server_port + '/send')
+  console.log('http://'+ server_address + ':' + server_port + '/send')
   
   const options = {
     method: 'POST',
-    url: server_ip + ':' + server_port + '/send',
+    url: 'http://'+ server_address + ':' + server_port + '/send',
     data: {text: sendText, sender: sender_name, receiver: '2'},
     headers: {
       // Add correct auth bearer

@@ -1,0 +1,31 @@
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: maashaik/frontend-app:latest
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+        env:
+        - name: REDIS_HOST
+          value: $(REDIS_SERVICE_HOST)
+        - name: MSERVER_HOST
+          value: $(MSERVER_SERVICE_HOST)
+        - name: PROD
+          value: "TRUE"
+        - name: LOCAL_IP
+          value: "http://localhost"
+---

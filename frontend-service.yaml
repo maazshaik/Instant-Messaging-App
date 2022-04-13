@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  type: LoadBalancer
+  ports:
+    - protocol: "TCP"
+      name: "client"
+      port: 3000
+      targetPort: 3000
+    - protocol: "TCP"
+      name: "backend"
+      port: 3001
+      targetPort: 3001
