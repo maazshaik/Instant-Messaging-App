@@ -45,7 +45,11 @@ class Test(unittest.TestCase):
         self.assertTrue(Comm.get_room_id(2, 2) is None)
         self.assertTrue(Comm.get_room_id(2, math.nan) is None)
 
-    
+    # Test cases to check if the get_room_id function in the Comm module is working properly
+    def test_getRoomId(self):
+        self.assertEqual(Comm.get_room_id(2,1), '1:2')
+        self.assertTrue(Comm.get_room_id(2, 2) is None)
+        self.assertTrue(Comm.get_room_id(2, math.nan) is None)
 
     
 
