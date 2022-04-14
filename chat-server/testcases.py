@@ -39,6 +39,14 @@ class Test(unittest.TestCase):
         message = [{'user_details': userid1, 'message': 'Hello', 'timestamp': 1.1, 'room_details': str(userid1)+':'+str(userid2)}]
         self.assertEqual(Comm.get_message(room_id['id']), message)
 
+    # Test cases to check if the get_room_id function in the Comm module is working properly
+    def test_getRoomId(self):
+        self.assertEqual(Comm.get_room_id(2,1), '1:2')
+        self.assertTrue(Comm.get_room_id(2, 2) is None)
+        self.assertTrue(Comm.get_room_id(2, math.nan) is None)
+
+    
+
     
 
 if __name__ == '__main__':
