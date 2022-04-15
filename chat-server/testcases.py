@@ -50,6 +50,10 @@ class Test(unittest.TestCase):
         self.assertEqual(Comm.get_room_id(2,1), '1:2')
         self.assertTrue(Comm.get_room_id(2, 2) is None)
         self.assertTrue(Comm.get_room_id(2, math.nan) is None)
+        
+    # Test cases to check if the decode function in the Comm module is working properly
+    def test_decode(self):
+        self.assertEqual(Comm.decode(b'user1:1'), 1)
 
     
 
