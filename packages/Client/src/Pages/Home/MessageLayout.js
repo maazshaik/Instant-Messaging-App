@@ -10,19 +10,22 @@ export class MessageLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: []
+      messages: [],
+      friendSelected: false
     };
 
     this.getMessages = this.getMessages.bind(this);
   }
 
   componentDidMount() {
-    this.timerID = setInterval(this.getMessages, 60000)
+    this.timerID = setInterval(this.getMessages, 30000)
     this.getMessages()
   }
 
-  componentDidUpdate() {
-    this.getMessages()
+  componentDidUpdate(prevProps) {
+    if (this.props.friend !== prevProps.friend) {
+      this.getMessages()
+    }
   }
 
   componentWillUnmount() {
@@ -42,6 +45,7 @@ export class MessageLayout extends React.Component {
       var sortedMessages = response.data.sort((function (a, b) {
         return new Date(a.timestamp) - new Date(b.timestamp)
       }));
+
       this.setState({ messages: sortedMessages.map(newMessage => ({ sender: newMessage.sender, text: newMessage.message, id: 'random' })) })
     }).catch((error) => {
       console.error(error)
