@@ -28,7 +28,13 @@ def get_friend():
     print(username)
     print(user1)
 
-    return jsonify(friendlist)
+    return jsonify(friendlist), 200
+
+@app.route("/createuser", methods=['GET'])
+def create_user():
+    username = request.args.get('username')
+    username = Comm.create_user(Comm.make_username_key(username))
+    return "Success", 200
 
 @app.route('/UI', methods = ['GET', 'POST'])
 def send_msg():
