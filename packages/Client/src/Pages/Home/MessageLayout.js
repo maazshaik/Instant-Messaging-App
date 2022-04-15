@@ -13,7 +13,7 @@ export class MessageLayout extends React.Component {
   }
 
   componentDidMount() {
-    this.timerID = setInterval(this.reloadMessages, 10000)
+    //this.timerID = setInterval(this.reloadMessages, 10000)
 
     const options = {
       method: 'GET',
@@ -34,7 +34,7 @@ export class MessageLayout extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID)
+    //clearInterval(this.timerID)
   }
 
   render() {
