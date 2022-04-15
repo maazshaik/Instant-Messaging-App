@@ -8,7 +8,6 @@ class Test(unittest.TestCase):
     def setUp(self):
         pass
 
-    # The following tests comes under Integration tests
     # Test cases to check if the create_user method in the Comm module is working correctly. It should take a
     # username and generate a userid as per the total_users count in the DB
 
