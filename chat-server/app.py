@@ -23,7 +23,7 @@ def add_friend():
     # Create a pannel on UI
     # Pass
 
-@app.route("/friend/get", methods=['GET'])
+@app.route("/friends", methods=['GET'])
 def get_friend():
     username = request.args.get('user')
     user1 = utils.decode(utils.get_userid(utils.make_username_key(username)))
