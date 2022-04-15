@@ -7,20 +7,40 @@ let textInput = React.createRef();
 axios.defaults.withCredentials = true;
 
 export class MessageLayout extends React.Component {
+
   state = {
     messages: []
-  };
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(this.reloadMessages, 10000)
+
+    const options = {
+      method: 'GET',
+      url: 'http://localhost:3001/getMessages',
+      params: { target: this.props.friend },
+      credentials: true
+    }
+
+    axios.request(options).then((response) => {
+      var sortedMessages = response.data.sort((function (a, b) {
+        return new Date(a.timestamp) - new Date(b.timestamp)
+      }));
+      this.setState({ messages: sortedMessages.map(newMessage => ({ sender: newMessage.sender, text: newMessage.message, id: 'random' })) })
+    }).catch((error) => {
+      console.error(error)
+      alert("Bad")
+    })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+  }
 
   render() {
-    let list = <div className="empty-message-list">No messages to display</div>;
-    if (this.props.friend) {
-      this.reloadMessages(this.props.friend)
-      list = this.state.messages.map(getMessageDetails);
-    }
     return (
       <div className="message-layout">
-        <div className="conversation">{list}</div>
-
+        <div className="conversation">{this.state.messages.map(convertJsonMessageToHtml)}</div>
         <div className="text-box">
           <input id="text" ref={textInput} placeholder="Type a message..." />
           <button onClick={this.handleClick}>Send</button>
@@ -33,7 +53,7 @@ export class MessageLayout extends React.Component {
     const options = {
       method: 'GET',
       url: 'http://localhost:3001/send',
-      params: {text: textInput.current.value, receiver: this.props.friend},
+      params: { text: textInput.current.value, receiver: this.props.friend },
       credentials: true
     }
     axios.request(options).then((response) => {
@@ -42,23 +62,22 @@ export class MessageLayout extends React.Component {
       console.error(error)
       alert("Bad")
     })
-    this.forceUpdate()
+    this.reloadMessages()
   }
 
-  reloadMessages = (target) => {
+  reloadMessages = () => {
     const options = {
       method: 'GET',
       url: 'http://localhost:3001/getMessages',
-      params: {target: target},
+      params: { target: this.props.friend },
       credentials: true
     }
-  
+
     axios.request(options).then((response) => {
-      var sortedMessages = response.data.sort((function (a, b) { 
-        return new Date(a.timestamp) - new Date(b.timestamp) 
+      var sortedMessages = response.data.sort((function (a, b) {
+        return new Date(a.timestamp) - new Date(b.timestamp)
       }));
-      var newMessages = sortedMessages.map(newMessage => ({sender: newMessage.sender, text: newMessage.message, id: 'random'}))
-      this.setState({messages: newMessages})
+      this.setState({ messages: sortedMessages.map(newMessage => ({ sender: newMessage.sender, text: newMessage.message, id: 'random' })) })
     }).catch((error) => {
       console.error(error)
       alert("Bad")
@@ -66,7 +85,7 @@ export class MessageLayout extends React.Component {
   }
 }
 
-function getMessageDetails(message) {
+function convertJsonMessageToHtml(message) {
   return (
     <Message
       id={message.id}
