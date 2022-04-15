@@ -25,11 +25,9 @@ def add_friend():
 
 @app.route("/friend/get", methods=['GET'])
 def get_friend():
-    username = request.args.get('user1')
+    username = request.args.get('user')
     user1 = utils.decode(utils.get_userid(utils.make_username_key(username)))
     friendlistid, friendlist = utils.get_friend_list(user1, username)
-    print(username)
-    print(user1)
 
     return jsonify(friendlist)
 
