@@ -55,6 +55,22 @@ class Test(unittest.TestCase):
     def test_decode(self):
         self.assertEqual(Comm.decode(b'user1:1'), 1)
 
+    def test_getFrindsList(self):
+        u1 = Comm.get_userid(Comm.make_username_key("user7"))
+        u2 = Comm.get_userid(Comm.make_username_key("user8"))
+        if u1 is None:
+            userid1 = Comm.create_user("user7")['id']
+        else:
+            userid1 = int(u1.decode("utf-8").split(":")[1])
+
+        if u2 is None:
+            userid2 = Comm.create_user("user8")['id']
+        else:
+            userid2 = int(u2.decode("utf-8").split(":")[1])
+        Comm.add_to_friends_list(userid1, userid2, 'user7', 'user8')
+        user_id_list, users = Comm.get_friend_list(userid1, 'user7')
+        self.assertEqual(users, ['user8'])
+        self.assertEqual(user_id_list, [userid2])
     
 
 if __name__ == '__main__':
