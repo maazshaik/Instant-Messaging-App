@@ -63,6 +63,11 @@ class Test(unittest.TestCase):
         u2 = Comm.get_userid(Comm.make_username_key('Abhi1'))
         self.assertTrue(u2 is None)
 
+    # Test Cases to check if the make_username_key function in the Comm module is working properly.
+    def test_makeUserKey(self):
+        self.assertEqual(Comm.make_username_key('test'), 'username:test')
+        self.assertTrue(Comm.make_username_key('') is None)
+        
     # Test case to check getfriendslist function
     def test_getFrindsList(self):
         u1 = Comm.get_userid(Comm.make_username_key("user7"))
