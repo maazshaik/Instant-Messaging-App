@@ -54,7 +54,16 @@ class Test(unittest.TestCase):
     # Test cases to check if the decode function in the Comm module is working properly
     def test_decode(self):
         self.assertEqual(Comm.decode(b'user1:1'), 1)
+    
+    # Test case to check if a user exists
+    def test_userExists(self):
+        Comm.create_user('Abhi')
+        u1 = Comm.get_userid(Comm.make_username_key('Abhi'))
+        self.assertTrue(u1 is not None)
+        u2 = Comm.get_userid(Comm.make_username_key('Abhi1'))
+        self.assertTrue(u2 is None)
 
+    # Test case to check getfriendslist function
     def test_getFrindsList(self):
         u1 = Comm.get_userid(Comm.make_username_key("user7"))
         u2 = Comm.get_userid(Comm.make_username_key("user8"))
@@ -71,6 +80,7 @@ class Test(unittest.TestCase):
         user_id_list, users = Comm.get_friend_list(userid1, 'user7')
         self.assertEqual(users, ['user8'])
         self.assertEqual(user_id_list, [userid2])
+     
     
 
 if __name__ == '__main__':
