@@ -8,8 +8,7 @@ export class DefaultMessageLayout extends React.Component {
       <div className="message-layout">
         <div className="conversation"><div className="empty-message-list">No messages to display</div></div>
         <div className="text-box">
-          <input id="text" ref={textInput} placeholder="Type a message..." />
-          <button onClick={this.handleClick}>Send</button>
+          <input id="text" ref={textInput} placeholder="Choose a conversation from the left panel" />
         </div>
       </div>
     );
