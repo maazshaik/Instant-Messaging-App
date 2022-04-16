@@ -32,7 +32,6 @@ class Home extends React.Component {
   }
 
   updateFriendSelected(friend) {
-    alert('success')
     this.setState({ selectedFriend: friend })
     console.log('selected')
     console.log(friend)
