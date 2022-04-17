@@ -21,7 +21,7 @@ def check_user_exist(username):
     return False
 
 def get_userid(username_key):
-    user_exist =redis_connection.exists(username_key)
+    user_exist = redis_connection.exists(username_key)
     if user_exist:
         return redis_connection.get(username_key)
     return None
