@@ -8,27 +8,87 @@ axios.defaults.withCredentials = true;
 
 require('dotenv').config();
 
-
 export class MessageLayout extends React.Component {
-  render() {
-    let list = <div className="empty-message-list">No messages to display</div>;
-    if (this.props.friend && this.props.friend.messages) {
-      list = this.props.friend.messages.map(getMessageDetails);
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: [],
+      friendSelected: false
+    };
+
+    this.getMessages = this.getMessages.bind(this);
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(this.getMessages, 30000)
+    this.getMessages()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.friend !== prevProps.friend) {
+      this.getMessages()
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+  }
+
+  getMessages() {
+    console.log('get message')
+    console.log(this.props.friend)
+    const options = {
+      method: 'GET',
+      url: 'http://35.224.20.5:3001/getMessages',
+      params: { target: this.props.friend },
+      credentials: true
+    }
+    axios.request(options).then((response) => {
+      var sortedMessages = response.data.sort((function (a, b) {
+        return new Date(a.timestamp) - new Date(b.timestamp)
+      }));
+
+      this.setState({ messages: sortedMessages.map(newMessage => ({ sender: newMessage.sender, text: newMessage.message, id: 'random' })) })
+    }).catch((error) => {
+      console.error(error)
+      alert("Bad")
+    })
+  }
+
+  sendMessage() {
+    const options = {
+      method: 'GET',
+      url: 'http://35.224.20.5:3001/send',
+      params: { text: textInput.current.value, receiver: this.props.friend },
+      credentials: true
+    }
+    axios.request(options).then((response) => {
+      document.getElementById("text").value = ''
+    }).catch((error) => {
+      console.error(error)
+      alert("Bad")
+    })
+  }
+
+  handleClick = () => {
+    this.sendMessage()
+    this.getMessages()
+  }
+
+  render() {
     return (
       <div className="message-layout">
-        <div className="conversation">{list}</div>
-
+        <div className="conversation">{this.state.messages.map(convertJsonMessageToHtml)}</div>
         <div className="text-box">
           <input id="text" ref={textInput} placeholder="Type a message..." />
-          <button onClick={handleClick}>Send</button>
+          <button onClick={this.handleClick}>Send</button>
         </div>
       </div>
     );
   }
 }
 
-function getMessageDetails(message) {
+function convertJsonMessageToHtml(message) {
   return (
     <Message
       id={message.id}
@@ -36,21 +96,4 @@ function getMessageDetails(message) {
       text={message.text}
     ></Message>
   );
-}
-
-function handleClick() {
-  const options = {
-    method: 'GET',
-    url: 'http://35.224.20.5:3001/send',
-    params: {text: textInput.current.value},
-  }
-
-  axios.request(options).then((response) => {
-    console.log(response.data)
-    alert(response.data)
-    document.getElementById("text").value = ''
-  }).catch((error) => {
-    console.error(error)
-    alert("Bad")
-  })
 }

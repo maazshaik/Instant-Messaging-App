@@ -1,18 +1,57 @@
 import React from "react";
-import { FriendList } from "./FriendList";
 import { MessageLayout } from "./MessageLayout";
 import { useNavigate } from "react-router-dom";
 import "./home.css";
+import { DefaultMessageLayout } from "./DefaultMessageLayout";
+import axios from 'axios';
 
 class Home extends React.Component {
-  state = {
-    friendList: [{ name: "Friend 1" }, { name: "Friend 2" }],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      friendList: [],
+      selectedFriend: null
+    };
+    this.updateFriendSelected = this.updateFriendSelected.bind(this);
+    this.getFriendPanel = this.getFriendPanel.bind(this);
+  }
+
+  componentDidMount() {
+    const options = {
+      method: 'GET',
+      url: 'http://35.224.20.5:3001/friends',
+      credentials: true
+    }
+
+    axios.request(options).then((response) => {
+      this.setState({ friendList: response.data.map(friend => ({ name: friend })) })
+    }).catch((error) => {
+      console.error(error)
+      alert("Bad")
+    })
+  }
+
+  updateFriendSelected(friend) {
+    this.setState({ selectedFriend: friend })
+    console.log('selected')
+    console.log(friend)
+  }
+
+  getFriendPanel(friend) {
+    return <div className="friend-panel" onClick={() => this.updateFriendSelected(friend.name)}>
+      <div>{friend.name}</div>
+    </div>
+  }
+
   render() {
+    let messageLayout = <DefaultMessageLayout />
+    if (this.state.selectedFriend) {
+      messageLayout = <MessageLayout friend={this.state.selectedFriend} />
+    }
     return (
       <div className="home-page">
-        <FriendList friendList={this.state.friendList} />
-        <MessageLayout />
+        <div className="friend-list">{this.state.friendList.map(this.getFriendPanel)}</div>;
+        {messageLayout}
       </div>
     );
   }

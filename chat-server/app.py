@@ -1,18 +1,21 @@
+from datetime import datetime
 from flask import Flask, request, Response, jsonify, render_template
 import json
 import utils
 import time
+import sys
+import logging
 
 
 app = Flask(__name__)
 
+logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
-@app.route('/add', methods=['POST'])
+@app.route('/friend/add', methods=['POST'])
 def add_friend():
     user1 = None
-    user2 = utils.decode(utils.get_userid(utils.make_username_key(request.form('user'))))
-
-
+    user2 = request.form('user')
+    userid2 = utils.decode(utils.get_userid(utils.make_username_key(user2)))
     utils.add_to_friends_list(user1, user2)
     # Initiate the new User chat with the new friend
     response = utils.create_room_id(user1, user2)
@@ -20,46 +23,38 @@ def add_friend():
     # Create a pannel on UI
     # Pass
 
+@app.route("/friends", methods=['GET'])
+def get_friend():
+    username = request.args.get('user')
+    user1 = utils.decode(utils.get_userid(utils.make_username_key(username)))
+    friendlistid, friendlist = utils.get_friend_list(user1, username)
+
+    return jsonify(friendlist)
+
 @app.route('/send', methods = ['GET', 'POST'])
 def send_msg():
     if request.method == 'POST':
-        data = json.loads(request.data)
-        sender_name = data['sender']
-        print(sender_name)
-        user1 = None
-        if len(sender_name) > 0:
-            user1 = 1
-        message = data['text']
-        user2 = int(data['receiver'])
-        room_id = utils.get_room_id(user1, user2)
+        # TODO get user from session
+        request_content = request.json
+        user1 = request_content['sender']
+        user1id = utils.decode(utils.get_userid(utils.make_username_key(user1)))
+        message = request_content['text']
+        user2 = request_content['receiver']
+        user2id = utils.decode(utils.get_userid(utils.make_username_key(user2)))
+        room_id = utils.get_room_id(user1id, user2id)
         timestamp = time.time()
-        print("Sending: ", message, "from user:", user1, "to user:", user2)
-        utils.send_message(room_id, message, timestamp, user1)
-
-        # Dummy response
-        jsonPayload = {}
-        response = json.dumps(jsonPayload, indent=4, sort_keys=True)
-        return Response(response=response, status=200, mimetype="application/json")
+        utils.send_message(room_id, message, timestamp, user1id, user1, user2)
+        response = jsonify(success=True)
+        return response, 200
     elif request.method == 'GET':
-        user = None
-        user1 = utils.decode(utils.get_userid(utils.make_username_key(user)))
-        friend_list = utils.get_friend_list(user1)
-        messages = []
-        for i in range(len(friend_list)):
-            user2 = friend_list[i]
-            room_id = utils.get_room_id(user1, user2)
-            data = utils.get_message(room_id)
-            messages.append(data)
-        messages = jsonify(messages)
-        return messages
-
-
+        user1 = request.args.get('source')
+        user1id = utils.decode(utils.get_userid(utils.make_username_key(user1)))
+        user2 = request.args.get('target')
+        user2id = utils.decode(utils.get_userid(utils.make_username_key(user2)))
+        room_id = utils.create_room_id(user1id, user2id)
+        room_id = room_id[0]['id']
+        data = utils.get_message(room_id)
+        return jsonify(data), 200
 
 if __name__ == '__main__':
-  app.run(host="0.0.0.0", port=6000)
-
-
-
-
-
-
+  app.run(host="0.0.0.0", port=6000, debug=True)

@@ -30,7 +30,7 @@ class Register extends React.Component {
 
     createUser = () => {
           axios({method: 'get',
-          url: 'http://localhost:3001/userregister2',
+          url: 'http://35.224.20.5:3001/userregister2',
           params: {fullname: this.state.fullname, uname:this.state.uname, password:this.state.password}
           })
           .then(res => {
@@ -58,7 +58,7 @@ class Register extends React.Component {
             // 2 - User exists
             const options = {
                 method: 'GET',
-                url: 'http://localhost:3001/userregister',
+                url: 'http://35.224.20.5:3001/userregister',
                 params: {fullname: this.state.fullname,uname:this.state.uname},
             }
             
