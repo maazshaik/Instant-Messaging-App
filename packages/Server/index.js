@@ -10,24 +10,11 @@ const PORT = process.env.BACKEND_PORT || 3001;
 const app = express();
 const db = require('./postgres')
 
-require('dotenv').config();
-let server_ip = ""
-let server_port = ""
-
-if (process.env.PROD == "TRUE") {
-  server_ip = process.env.PROD_IP
-  server_port = process.env.SERVER_PORT
-} else {
-  server_ip = process.env.LOCAL_IP
-  server_port = process.env.SERVER_PORT
-}
-
 app.use(cors({
   credentials: true,
   methods: ["GET", "POST"],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  origin: [process.env.PROD_IP + ':' + process.env.SERVER_PORT, process.env.PROD_IP + ':' + process.env.CLIENT_PORT,
-  process.env.LOCAL_IP + ':' + process.env.SERVER_PORT, process.env.LOCAL_IP + ':' + process.env.CLIENT_PORT]
+  origin: ['http://localhost:3000', 'http://localhost:3001']
 }));
 app.use(cookieParser());
 
@@ -37,13 +24,12 @@ app.use(session({ key: "userId", secret: "secret", saveUninitialized: false, res
 
 
 app.get('/send', (req, res) => {
-  console.log(server_ip + ':' + server_port + '/send')
   const sendText = req.query.text
   const sender_name = req.session.user
   const receiver_name = req.query.receiver
   const options = {
     method: 'POST',
-    url: server_ip + ':' + server_port + '/send',
+    url: 'http://0.0.0.0:6000/send',
     data: { text: sendText, sender: sender_name, receiver: receiver_name },
     headers: {
       // Add correct auth bearer
@@ -59,10 +45,9 @@ app.get('/send', (req, res) => {
 })
 
 app.get('/getMessages', (req, res) => {
-  console.log(server_ip + ':' + server_port + '/send')
   const options = {
     method: 'GET',
-    url: server_ip + ':' + server_port + '/send',
+    url: 'http://0.0.0.0:6000/send',
     params: { source: req.session.user, target: req.query.target },
     headers: {
       // Add correct auth bearer
@@ -79,7 +64,7 @@ app.get('/getMessages', (req, res) => {
 app.get('/friends', (req, res) => {
   const options = {
     method: 'GET',
-    url: server_ip + ':' + server_port + '/friends',
+    url: 'http://0.0.0.0:6000/friends',
     params: { user: req.session.user },
     headers: {
       // Add correct auth bearer
