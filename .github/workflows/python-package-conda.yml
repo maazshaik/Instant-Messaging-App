@@ -21,4 +21,4 @@ jobs:
     - name: Test with pytest
       run: |
         pip install -r requirements.txt
-        cd chat-server && python test.py
+        cd chat-server && python test_cases.py
