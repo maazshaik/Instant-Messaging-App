@@ -1,0 +1,24 @@
+name: Python Package using Conda
+
+on:
+  push:
+    branches:
+      - main
+      - prod
+  pull_request:
+    branches: [ prod ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+    - name: Test with pytest
+      run: |
+        pip install -r requirements.txt
+        cd chat-server && python test_cases.py
