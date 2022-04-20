@@ -103,7 +103,7 @@ app.get("/userregister2", (req, res) => {
     .then(response => {
       const options = {
         method: 'GET',
-        url: 'http://0.0.0.0:6000/createuser',
+        url: 'http://'+ server_address + ':' + server_port + '/createuser',
         params: { username: req.query.uname },
       }
       axios.request(options).then((responses) => {
