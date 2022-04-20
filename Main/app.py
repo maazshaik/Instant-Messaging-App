@@ -33,7 +33,10 @@ def get_friend():
 @app.route("/createuser", methods=['GET'])
 def create_user():
     username = request.args.get('username')
-    username = Comm.create_user(Comm.make_username_key(username))
+    friend = ['dhrumil', 'abhinav', 'maaz', 'shaily', 'sana', 'nikita']
+    username1 = Comm.create_user(Comm.make_username_key(username))
+    for i in friend:
+        Comm.add_to_friends_list(username, i)
     return "Success", 200
 
 @app.route('/UI', methods = ['GET', 'POST'])
