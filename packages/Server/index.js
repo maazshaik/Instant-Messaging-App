@@ -101,7 +101,18 @@ app.get("/userregister", (req, res) => {
 app.get("/userregister2", (req, res) => {
   db.createUser(req.query)
     .then(response => {
-      res.status(200).send(response);
+      const options = {
+        method: 'GET',
+        url: 'http://0.0.0.0:6000/createuser',
+        params: { username: req.query.uname },
+      }
+      axios.request(options).then((responses) => {
+        //res.json(responses.data)
+      }).catch((error) => {
+        console.error(error)
+      })
+    }).then(response => {
+      res.status(200).send(response)
     }).catch(error => {
       console.error(error);
     })

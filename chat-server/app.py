@@ -56,5 +56,16 @@ def send_msg():
         data = utils.get_message(room_id)
         return jsonify(data), 200
 
+
+@app.route("/createuser", methods=['GET'])
+def create_user():
+    username = request.args.get('username')
+    friends = ['dhrumil', 'abhinav', 'maaz', 'shaily', 'sana', 'nikita']
+    userinfo = utils.create_user(username)
+    for friendname in friends:
+        fname = utils.decode(utils.get_userid(utils.make_username_key(friendname)))
+        utils.add_to_friends_list(userinfo["id"], fname, username, friendname)
+    return "Success", 200
+
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=6000, debug=True)
