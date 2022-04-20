@@ -20,7 +20,7 @@ export class MessageLayout extends React.Component {
   }
 
   componentDidMount() {
-    this.timerID = setInterval(this.getMessages, 30000)
+    this.timerID = setInterval(this.getMessages, 500)
     this.getMessages()
   }
 
