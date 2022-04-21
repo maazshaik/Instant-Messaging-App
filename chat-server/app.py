@@ -29,6 +29,10 @@ def get_friend():
     user1 = utils.decode(utils.get_userid(utils.make_username_key(username)))
     friendlistid, friendlist = utils.get_friend_list(user1, username)
 
+    if "username:vasanth" in friendlist:
+        friendlist.remove("username:vasanth")
+        friendlistid.remove(14)
+
     return jsonify(friendlist)
 
 @app.route('/send', methods = ['GET', 'POST'])
