@@ -51,7 +51,6 @@ export class MessageLayout extends React.Component {
       this.setState({ messages: sortedMessages.map(newMessage => ({ sender: newMessage.sender, text: newMessage.message, id: 'random' })) })
     }).catch((error) => {
       console.error(error)
-      alert("Bad")
     })
   }
 
