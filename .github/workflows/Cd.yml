@@ -33,6 +33,8 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        kubectl get services -o wide
+        kubectl delete deployment frontend
+        sleep 20
+        kubectl delete deployment mserver
         
     
