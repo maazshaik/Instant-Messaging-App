@@ -4,6 +4,31 @@
 
 This is the initial version of our chat application deployed at: [Chat App](http://35.224.20.5:3000/)
 
+
+# A Level work description
+
+- Web application - 
+- Basic form, reporting - 
+- Data collection - 
+- Data analyzer - 
+- Unit tests - 
+- Data persistence - 
+- Data store - 
+- Rest collaboration internal or API endpoint -
+- Product environment -
+
+- Integration tests - 
+- Using mock objects or any test doubles -
+- Continuous integration -
+- Production monitoring instrumenting -
+
+- Acceptance tests -
+- Event collaboration messaging -
+- Continuous delivery -
+
+</br></br>
+
+
 How to run dev environment:
 
 Terminal 1
