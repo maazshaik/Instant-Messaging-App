@@ -3,9 +3,9 @@ name: CI/CD
 on:
   push:
     branches:
-      - prod
+      - prod123
   pull_request:
-    branches: [ prod ]
+    branches: [ prod123 ]
     
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
