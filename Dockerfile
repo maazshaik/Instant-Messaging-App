@@ -1,6 +1,5 @@
 FROM node:12.18.1 as build-deps
 WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
 COPY . ./
 EXPOSE 3000
 ENV PROD="TRUE"
