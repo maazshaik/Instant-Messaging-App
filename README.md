@@ -2,7 +2,7 @@
 
 **Team Members:** Abhinav Venkatesh, Dhrumil Makwana, Maaz Afzal Shaikh, Sana Fathima, Shaily Preetham Kurra, Sri Nikitha Kalidindi
 
-This is the initial version of our chat application deployed at: [Chat App](http://35.224.20.5:3000/)
+Production Deployment link for chat application: [Chat App](http://35.224.20.5:3000/)
 
 
 # A Level work description
@@ -29,7 +29,7 @@ This is the initial version of our chat application deployed at: [Chat App](http
 </br></br>
 
 
-How to run dev environment:
+# Running the dev environment for the Instant Messaging Application:
 
 Terminal 1
 ```
