@@ -29,7 +29,7 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 </br></br>
 
 
-# Running the dev environment for the Instant Messaging Application:
+# Running the dev environment:
 
 Terminal 1
 ```
