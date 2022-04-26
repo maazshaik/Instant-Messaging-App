@@ -5,7 +5,7 @@
 Production Deployment link for chat application: [Chat App](http://35.224.20.5:3000/)
 
 
-# A Level work description
+## A Level work description
 
 - Web application - Developed using React, Node JS and Python
 - Basic form, reporting - Login, Register, User Home and Message Pages 
@@ -29,7 +29,7 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 </br></br>
 
 
-# Running the dev environment:
+## Running the dev environment:
 
 Terminal 1
 ```
@@ -43,7 +43,7 @@ cd chat-server
 python3 app.py
 ```
 
-References:
+## References:
 * https://flask.palletsprojects.com/en/2.0.x/
 * https://www.digitalocean.com/community/tutorials/how-to-use-web-forms-in-a-flask-application
 * https://devcenter.heroku.com/articles/getting-started-with-python
