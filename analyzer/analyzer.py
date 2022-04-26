@@ -1,7 +1,7 @@
 import pika
 import redis, json
 
-redis_connection = redis.Redis(host='localhost', port=6379, db=0)
+redis_connection = redis.Redis(host='redis-16390.c100.us-east-1-4.ec2.cloud.redislabs.com', port='16390', password='rI7l7E9n9Gj4AoWNsbNNmfTcMI83vH91')
 
 def send_message(room_id, message, timestamp, userid, sender, receiver):
     content = {
@@ -17,7 +17,7 @@ def send_message(room_id, message, timestamp, userid, sender, receiver):
     redis_connection.zadd(room_id, {payload: time})
 
 def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    connection = pika.BlockingConnection(pika.URLParameters('amqps://vapbhdoy:7akfGPCSGyEuYqiBPOstczkztCvQkxbC@albatross.rmq.cloudamqp.com/vapbhdoy'))
     channel = connection.channel()
 
     channel.queue_declare(queue='hello')
@@ -34,7 +34,7 @@ def main():
                 message = "This message is flagged due to a cuss word"
                 break
         send_message(body['room_details'], message, body['timestamp'], body['user_details'], body['sender'], body['receiver'])
-        connection.close()
+        # connection.close()
 
 
 

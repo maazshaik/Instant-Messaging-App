@@ -56,7 +56,7 @@ def send_msg():
             "receiver": user2
         }
         # TODO - Need to send the message to analyzer and check for any bad words
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        connection = pika.BlockingConnection(pika.URLParameters('amqps://vapbhdoy:7akfGPCSGyEuYqiBPOstczkztCvQkxbC@albatross.rmq.cloudamqp.com/vapbhdoy'))
         channel = connection.channel()
         channel.queue_declare(queue='hello')
         channel.basic_publish(exchange='', routing_key='hello', body=json.dumps(content))
