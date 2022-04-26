@@ -7,8 +7,8 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 
 ## A Level work description
 
-- Web application - Developed using React, Node JS and Python
-- Basic form, reporting - Login, Register, User Home and Message Pages 
+- **Web application -** Developed using React, Node JS and Python
+- **Basic form, reporting -** Login, Register, User Home and Message Pages 
 - Data collection - User Credentials, Friend details are collected from the user 
 - Data analyzer - Analysis of messages for expletive content
 - Unit tests - Performed using unit test module in python
