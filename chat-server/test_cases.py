@@ -2,6 +2,43 @@ import unittest
 import utils
 import math
 from configurations import redis_connection
+import fakeredis
+import json
+
+redis = fakeredis.FakeStrictRedis()
+redis.set('total', '0')
+
+def create_user(username):
+    username_key = make_username_key(username)
+    i = redis.incr("total")
+    user_key = f"user:{i}"
+    redis.set(username_key, user_key)
+    redis.sadd(f"user:{i}:rooms", "0")
+    return {"id": i, "username": username}
+
+def make_username_key(username):
+    if not username:
+        return None
+    return f"username:{username}"
+#
+def add_to_friends_list(userid1, userid2, user1, user2):
+    redis.zadd(userid1, {userid2: 1})
+    redis.zadd(userid2, {userid1: 1})
+    redis.zadd(user1, {user2: 1})
+    redis.zadd(user2, {user1: 1})
+#
+def get_friend_list(userid, username):
+    friends_list_id = redis.zrevrange(userid, 0, -1)
+    friends_list = redis.zrevrange(username, 0, -1)
+    friends_list_id = list(map(lambda x: json.loads(x.decode("utf-8")), friends_list_id))
+    friends_list = list(map(lambda x: x.decode("utf-8"), friends_list))
+    return friends_list_id, friends_list
+
+def get_userid(username_key):
+    user_exist =redis.exists(username_key)
+    if user_exist:
+        return redis.get(username_key)
+    return None
 
 
 class Test(unittest.TestCase):
@@ -84,6 +121,34 @@ class Test(unittest.TestCase):
         user_id_list, users = utils.get_friend_list(userid1, 'user7')
         self.assertEqual(users, ['user8'])
         self.assertEqual(user_id_list, [userid2])
+
+    def test_create_userMock(self):
+        self.assertEqual(create_user("user3"),
+                         {"id": int(redis.get("total").decode("utf-8")), "username": "user3"})
+
+    def test_getFrindsListMock(self):
+        u1 = get_userid(make_username_key("user7"))
+        u2 = get_userid(make_username_key("user8"))
+        if u1 is None:
+            userid1 = create_user("user7")['id']
+        else:
+            userid1 = int(u1.decode("utf-8").split(":")[1])
+
+        if u2 is None:
+            userid2 = create_user("user8")['id']
+        else:
+            userid2 = int(u2.decode("utf-8").split(":")[1])
+        add_to_friends_list(userid1, userid2, 'user7', 'user8')
+        user_id_list, users = get_friend_list(userid1, 'user7')
+        self.assertEqual(users, ['user8'])
+        self.assertEqual(user_id_list, [userid2])
+
+    def test_userExistsMock(self):
+        create_user('Abhi')
+        u1 = get_userid(make_username_key('Abhi'))
+        self.assertTrue(u1 is not None)
+        u2 = get_userid(make_username_key('Abhi1'))
+        self.assertTrue(u2 is None)
      
     
 
