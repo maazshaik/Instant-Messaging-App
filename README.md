@@ -26,8 +26,6 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 - Event collaboration messaging - Using RabbitMQ to analyze messages for expletive content
 - Continuous delivery - Achieved using GitHub Actions
 
-</br></br>
-
 
 ## Running the dev environment:
 
