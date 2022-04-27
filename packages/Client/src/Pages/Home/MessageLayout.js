@@ -18,7 +18,7 @@ export class MessageLayout extends React.Component {
   }
 
   componentDidMount() {
-    this.timerID = setInterval(this.getMessages, 30000)
+    this.timerID = setInterval(this.getMessages, 500)
     this.getMessages()
   }
 
@@ -42,11 +42,16 @@ export class MessageLayout extends React.Component {
       credentials: true
     }
     axios.request(options).then((response) => {
-      var sortedMessages = response.data.sort((function (a, b) {
-        return new Date(a.timestamp) - new Date(b.timestamp)
-      }));
+      if (response.data) {
+        var sortedMessages = response.data.sort((function (a, b) {
+          return new Date(a.timestamp) - new Date(b.timestamp)
+        }));
 
-      this.setState({ messages: sortedMessages.map(newMessage => ({ sender: newMessage.sender, text: newMessage.message, id: 'random' })) })
+        this.setState({ messages: sortedMessages.map(newMessage => ({ sender: newMessage.sender, text: newMessage.message, id: 'random' })) })
+      }
+      else {
+        this.setState({ messages: [] })
+      }
     }).catch((error) => {
       console.error(error)
       alert("Bad")
