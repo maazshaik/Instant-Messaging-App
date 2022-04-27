@@ -9,7 +9,7 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 
 - **Web application -** Developed using React, Node JS and Python
 - **Basic form, reporting -** Through web pages for user login, registration, user home and message  
-- **Data collection -** User Credentials, Friend details are collected from the user 
+- **Data collection -** User Credentials, Friend details and Messages are collected from the user 
 - **Data analyzer -** Analysis of messages for expletive content
 - **Unit tests -** Performed using unittest module in python
 - **Data persistence -** Using Redis, PostgreSQL databases
@@ -17,7 +17,7 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 - **Rest collaboration internal or API endpoint -** REST endpoint between front-end and backend
 - **Product environment -** GKE cluster
 
-- **Integration tests -** Performed by interacting with database instance and the unittest modules
+- **Integration tests -** Performed between different components like database instance, front-end, back-end and analyzer
 - **Using mock objects or any test doubles -** Used fakeredis module in python to mock the functionality of Redis
 - **Continuous integration -** Achieved using GitHub Actions
 - **Production monitoring instrumenting -** Using Prometheus
