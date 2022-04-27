@@ -11,14 +11,14 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 - **Basic form, reporting -** Through web pages for user login, registration, user home and message  
 - **Data collection -** User Credentials, Friend details are collected from the user 
 - **Data analyzer -** Analysis of messages for expletive content
-- **Unit tests -** Performed using unit test module in python
+- **Unit tests -** Performed using unittest module in python
 - **Data persistence -** Using Redis, PostgreSQL databases
 - **Data store -** User Credentials, Friend details, Messages are stored
 - **Rest collaboration internal or API endpoint -** REST endpoint between front-end and backend
 - **Product environment -** GKE cluster
 
-- **Integration tests -** Performed by interacting with database instance and the unit test modules
-- **Using mock objects or any test doubles -** Used Fake Redis module in python to mock the functionality of Redis
+- **Integration tests -** Performed by interacting with database instance and the unittest modules
+- **Using mock objects or any test doubles -** Used fakeredis module in python to mock the functionality of Redis
 - **Continuous integration -** Achieved using GitHub Actions
 - **Production monitoring instrumenting -** Using Prometheus
 
