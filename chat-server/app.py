@@ -5,6 +5,7 @@ import utils
 import time
 import sys
 import logging
+import pika
 
 
 app = Flask(__name__)
@@ -31,6 +32,9 @@ def get_friend():
 
     return jsonify(friendlist)
 
+
+
+
 @app.route('/send', methods = ['GET', 'POST'])
 def send_msg():
     if request.method == 'POST':
@@ -43,7 +47,21 @@ def send_msg():
         user2id = utils.decode(utils.get_userid(utils.make_username_key(user2)))
         room_id = utils.get_room_id(user1id, user2id)
         timestamp = time.time()
-        utils.send_message(room_id, message, timestamp, user1id, user1, user2)
+        content = {
+            "user_details": user1id,
+            "message": message,
+            "timestamp": timestamp,
+            "room_details": room_id,
+            "sender": user1,
+            "receiver": user2
+        }
+        # TODO - Need to send the message to analyzer and check for any bad words
+        connection = pika.BlockingConnection(pika.URLParameters('amqps://vapbhdoy:7akfGPCSGyEuYqiBPOstczkztCvQkxbC@albatross.rmq.cloudamqp.com/vapbhdoy'))
+        channel = connection.channel()
+        channel.queue_declare(queue='hello')
+        channel.basic_publish(exchange='', routing_key='hello', body=json.dumps(content))
+        connection.close()
+
         response = jsonify(success=True)
         return response, 200
     elif request.method == 'GET':
