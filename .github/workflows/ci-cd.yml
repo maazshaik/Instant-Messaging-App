@@ -47,11 +47,13 @@ jobs:
       run: |
         make build
         cd chat-server && make build
+        cd analyzer && make build
       
     - name: Push Docker Images 
       run: |
         make push
         cd chat-server && make push
+        cd analyzer && make push
         
     # Get the GKE credentials so we can deploy to the cluster
     - name: Login to GKE cluster
