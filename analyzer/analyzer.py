@@ -26,7 +26,7 @@ def main():
         body = json.loads(body)
         # Receive the message and flag for any inappropriate content
         message = body['message']
-        bad_words = {"stupid", "wack", "dumb"}
+        bad_words = {"stupid", "wack", "dumb", "shit", "sucks"}
         words_list = message.split(" ")
         print(words_list)
         for word in words_list:
