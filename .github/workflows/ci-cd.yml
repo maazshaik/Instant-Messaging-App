@@ -26,7 +26,7 @@ jobs:
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
     
-    - name: docker login
+    - name: Docker login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
@@ -43,32 +43,35 @@ jobs:
       with:
         cmd: install # will run `yarn install` command
         
-    - name: Build the Docker image
+    - name: Build the Docker images - frontend, server, analyzer
       run: |
         make build
         cd chat-server && make build
       
-    - name: Docker Push
+    - name: Push Docker Images 
       run: |
         make push
         cd chat-server && make push
         
     # Get the GKE credentials so we can deploy to the cluster
-    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+    - name: Login to GKE cluster
+      uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
         
     # Deploy the Docker image to the GKE cluster
-    - name: Deploy
+    - name: Deploy to GKE cluster
       run: |-
         kubectl delete deployment frontend
         sleep 20
         kubectl delete deployment mserver
         sleep 20
-        kubectl create -f frontend-deployment.yaml
+        kubectl delete deployment analyzer
         sleep 20
         kubectl create -f chat-server/server-deployment.yaml
-        
-    
+        sleep 20
+        kubectl create -f analyzer/analyzer-deployment.yaml
+        sleep 20
+        kubectl create -f frontend-deployment.yaml
