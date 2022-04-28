@@ -20,7 +20,7 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 - **Integration tests -** Performed between different components like database instance, front-end, back-end and analyzer
 - **Using mock objects or any test doubles -** Used fakeredis module in python to mock the functionality of Redis
 - **Continuous integration -** Achieved using GitHub Actions
-- **Production monitoring instrumenting -** Using Prometheus
+- **Production monitoring instrumenting -** Using /dbstatus endpoint
 
 - **Acceptance tests -** Performed by Gopala Krishna Vasanth Kanugo (Acceptance Tests.xlsx)
 - **Event collaboration messaging -** Using RabbitMQ to analyze messages for expletive content
