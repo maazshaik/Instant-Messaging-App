@@ -6,7 +6,7 @@ import time
 import sys
 import logging
 import pika
-import psycopg2
+
 
 app = Flask(__name__)
 
@@ -36,20 +36,7 @@ def get_friend():
 
     return jsonify(friendlist)
 
-@app.route("/dbstatus", methods=['GET'])
-def get_db_status():
-    try:
-        conn = psycopg2.connect("dbname='users' user='admin' host='34.71.219.206' password='chatapp' connect_timeout=1 ")
-        if conn:
-            response = "Database is running" 
-            return response, 200
-        else: 
-            response = "Database is shut"
-            return response, 400
-        conn.close()
-        return True
-    except:
-        return False
+
 
 
 @app.route('/send', methods = ['GET', 'POST'])
