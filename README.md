@@ -29,6 +29,8 @@ Production Deployment link for chat application: [Chat App](http://35.224.20.5:3
 
 ## Running the dev environment:
 
+There are a total of 3 processes. 
+
 Terminal 1
 ```
 yarn install
@@ -39,6 +41,12 @@ Terminal 2
 ```
 cd chat-server
 python3 app.py
+```
+
+Terminal 3
+```
+cd analyzer
+python3 analyzer.py
 ```
 
 ## References:
