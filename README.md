@@ -4,6 +4,7 @@
 
 Production Deployment link for chat application: [Chat App](http://35.224.20.5:3000/)
 
+**Architecture Diagram:** [Architecture](https://github.com/maazshaik/chat_app/blob/main/Architecture%20Diagram.pdf)
 
 ## A Level work description
 
